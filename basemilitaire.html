@@ -40,28 +40,81 @@
     <label for="score">Score total (sur 20) – optionnel :</label>
     <input type="number" id="score" name="score" min="0" max="20" step="0.5" placeholder="À remplir si auto-correction">
 
-    <!-- 20 questions exemples -->
-    <label>1. 18 × 7 = ?</label><input type="number" name="q1" required>
-    <label>2. 144 ÷ 12 = ?</label><input type="number" name="q2" required>
-    <label>3. Racine carrée de 169 ?</label><input type="number" name="q3" required>
-    <label>4. 25 % de 240 = ?</label><input type="number" name="q4" required>
-    <label>5. Orthographe correcte : a) occazsion b) occasion c) ocassion</label><select name="q5" required><option value="">--</option><option value="b">b</option><option value="a">a</option><option value="c">c</option></select>
-    <label>6. Synonyme de « persévérant »</label><input type="text" name="q6" required>
-    <label>7. Antonyme de « diluer »</label><input type="text" name="q7" required>
-    <label>8. 3/4 + 5/6 = ? (fraction irréductible)</label><input type="text" name="q8" required placeholder="ex: 19/12">
-    <label>9. Participe passé de « convaincre »</label><input type="text" name="q9" required>
-    <label>10. 7² + 8² = ?</label><input type="number" name="q10" required>
+    <!-- Questions corrigées -->
+    <label>1. 18 × 7 = ?</label>
+    <input type="number" name="q1" required>
 
-    <label>11. Quel est le PGCD de 48 et 18 ?</label><input type="number" name="q11" required>
-    <label>12. Complète : ni l’un ___ l’autre n’est venu</label><input type="text" name="q12" required>
-    <label>13. 15 % de 360 = ?</label><input type="number" name="q13" required>
-    <label>14. Orthographe : a) rythmes b) ritmes c) rythme</label><select name="q14" required><option value="">--</option><option value="c"><option value="b"><option value="a">a</option></select>
-    <label>15. 4! (factorielle) = ?</label><input type="number" name="q15" required>
-    <label>16. Synonyme de « éphémère »</label><input type="text" name="q16" required>
-    <label>17. 2,5 × 4,8 = ?</label><input type="number" step="0.1" name="q17" required>
-    <label>18. Mot de la même famille que « nation »</label><input type="text" name="q18" required>
-    <label>19. 1/3 de 96 = ?</label><input type="number" name="q19" required>
-    <label>20. Phrase correcte ? a) Il est partit b) Il est parti c) Il est partie</label><select name="q20" required><option value="">--</option><option value="a"><option value="c"><option value="b">b</option></select>
+    <label>2. 144 ÷ 12 = ?</label>
+    <input type="number" name="q2" required>
+
+    <label>3. Racine carrée de 169 ?</label>
+    <input type="number" name="q3" required>
+
+    <label>4. 25 % de 240 = ?</label>
+    <input type="number" name="q4" required>
+
+    <label>5. Orthographe correcte : a) occazsion b) occasion c) ocassion</label>
+    <select name="q5" required>
+      <option value="">Choisir...</option>
+      <option value="occasion">b) occasion</option>
+      <option value="occazsion">a) occazsion</option>
+      <option value="ocassion">c) ocassion</option>
+    </select>
+
+    <label>6. Synonyme de « persévérant »</label>
+    <input type="text" name="q6" required>
+
+    <label>7. Antonyme de « diluer »</label>
+    <input type="text" name="q7" required>
+
+    <label>8. 3/4 + 5/6 = ? (fraction irréductible)</label>
+    <input type="text" name="q8" required placeholder="ex: 19/12">
+
+    <label>9. Participe passé de « convaincre »</label>
+    <input type="text" name="q9" required>
+
+    <label>10. 7² + 8² = ?</label>
+    <input type="number" name="q10" required>
+
+    <label>11. Quel est le PGCD de 48 et 18 ?</label>
+    <input type="number" name="q11" required>
+
+    <label>12. Complète : ni l’un ___ l’autre n’est venu</label>
+    <input type="text" name="q12" required placeholder="ni ... ni">
+
+    <label>13. 15 % de 360 = ?</label>
+    <input type="number" name="q13" required>
+
+    <label>14. Orthographe : a) rythmes b) ritmes c) rythme</label>
+    <select name="q14" required>
+      <option value="">Choisir...</option>
+      <option value="rythmes">a) rythmes</option>
+      <option value="ritmes">b) ritmes</option>
+      <option value="rythme">c) rythme</option>
+    </select>
+
+    <label>15. 4! (factorielle) = ?</label>
+    <input type="number" name="q15" required>
+
+    <label>16. Synonyme de « éphémère »</label>
+    <input type="text" name="q16" required>
+
+    <label>17. 2,5 × 4,8 = ?</label>
+    <input type="number" step="0.01" name="q17" required>
+
+    <label>18. Mot de la même famille que « nation »</label>
+    <input type="text" name="q18" required placeholder="ex: national, nationalité...">
+
+    <label>19. 1/3 de 96 = ?</label>
+    <input type="number" name="q19" required>
+
+    <label>20. Phrase correcte ? a) Il est partit b) Il est parti c) Il est partie</label>
+    <select name="q20" required>
+      <option value="">Choisir...</option>
+      <option value="Il est partit">a) Il est partit</option>
+      <option value="Il est parti">b) Il est parti</option>
+      <option value="Il est partie">c) Il est partie</option>
+    </select>
 
     <button type="submit">Valider et envoyer</button>
   </form>
@@ -79,7 +132,7 @@ const loading = document.getElementById('loading');
 form.addEventListener('submit', async e => {
   e.preventDefault();
   loading.style.display = 'flex';
-  form.querySelectorAll('input,select,button,textarea').forEach(el=>el.disabled=true);
+  form.querySelectorAll('input,select,button').forEach(el => el.disabled = true);
 
   try {
     const formData = new FormData(form);
@@ -96,16 +149,17 @@ form.addEventListener('submit', async e => {
       alert('Réponses envoyées avec succès !');
       form.reset();
     } else {
-      alert('Erreur lors de l’envoi.');
+      alert('Erreur lors de l’envoi (statut ' + response.status + ')');
     }
-  } catch(err) {
+  } catch (err) {
     alert('Erreur réseau : ' + err.message);
   } finally {
     loading.style.display = 'none';
-    form.querySelectorAll('input,select,button,textarea').forEach(el=>el.disabled=false);
+    form.querySelectorAll('input,select,button').forEach(el => el.disabled = false);
     window.location.reload();
   }
 });
 </script>
+
 </body>
 </html>
