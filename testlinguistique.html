@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Linguistique Officier</title>
+  <link rel="icon" href="https://i.imgur.com/cYoRkpp.png">
+  <style>
+    body{font-family:Arial,sans-serif;margin:0;padding:20px;background:#f8f9fa;}
+    .container{max-width:860px;margin:0 auto;background:white;padding:30px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.15);}
+    .logo{width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid #003087;margin:0 auto 20px;display:block;}
+    h1{text-align:center;color:#003087;margin-bottom:8px;}
+    .subtitle{text-align:center;color:#555;margin-bottom:30px;}
+    label{display:block;margin:18px 0 6px;font-weight:bold;}
+    input,select,textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;box-sizing:border-box;font-size:1rem;}
+    button{display:block;margin:50px auto 0;padding:16px 80px;font-size:1.3rem;background:#c8102e;color:white;border:none;border-radius:8px;cursor:pointer;}
+    button:hover{background:#a00d24;}
+    #loading{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;color:white;font-size:2rem;flex-direction:column;justify-content:center;align-items:center;}
+    .spinner{width:80px;height:80px;border:10px solid #fff;border-top:10px solid #c8102e;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:30px;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <img src="https://i.imgur.com/cYoRkpp.png" alt="Logo" class="logo">
+  <h1>Test Anglais & Français – Officier</h1>
+  <p class="subtitle">20 questions – Total sur 20 points</p>
+
+  <form id="testForm">
+    <label for="prenom">Prénom :</label>
+    <input type="text" id="prenom" name="prenom" required>
+
+    <label for="nom">Nom :</label>
+    <input type="text" id="nom" name="nom" required>
+
+    <label for="numero">Numéro de candidat / Matricule :</label>
+    <input type="text" id="numero" name="numero" required>
+
+    <label for="score">Score total (sur 20) – optionnel :</label>
+    <input type="number" id="score" name="score" min="0" max="20" step="0.5" placeholder="À remplir si auto-correction">
+
+    <!-- 20 questions exemples -->
+    <label>1. Traduis en anglais : « Mieux vaut prévenir que guérir »</label><input type="text" name="q1" required>
+    <label>2. Past participle of the verb « to forbid » ?</label><input type="text" name="q2" required>
+    <label>3. Complète : Had I known about the delay, I _____ earlier. (come)</label><input type="text" name="q3" required>
+    <label>4. Traduis : « Il est essentiel que nous respections les consignes »</label><input type="text" name="q4" required>
+    <label>5. Synonyme en anglais de « resilient » ?</label><input type="text" name="q5" required>
+    <label>6. Quelle est la bonne préposition : He is good ___ mathematics.</label>
+    <select name="q6" required>
+      <option value="">Choisir...</option>
+      <option value="at">at</option>
+      <option value="in">in</option>
+      <option value="with">with</option>
+    </select>
+    <label>7. Traduis : « Nous avons dû reporter la réunion à cause du mauvais temps »</label><input type="text" name="q7" required>
+    <label>8. Antonym of « generous » ?</label><input type="text" name="q8" required>
+    <label>9. Complète au present perfect : She _____ (never / visit) Morocco.</label><input type="text" name="q9" required placeholder="forme complète">
+    <label>10. Traduis : « Le courage est la première des qualités militaires »</label><input type="text" name="q10" required>
+    <label>11. What does the phrasal verb « turn down » mean ?</label><input type="text" name="q11" required>
+    <label>12. Choisis la bonne forme : Neither the captain nor the soldiers _____ afraid.</label>
+    <select name="q12" required>
+      <option value="">Choisir...</option>
+      <option value="was">was</option>
+      <option value="were">were</option>
+    </select>
+    <label>13. Traduis : « Il faut que tu termines ce rapport avant demain »</label><input type="text" name="q13" required>
+    <label>14. Synonyme de « thorough » ?</label><input type="text" name="q14" required>
+    <label>15. Complète : By the time we arrive, they _____ (already / leave)</label><input type="text" name="q15" required>
+    <label>16. Quelle est la différence entre « make » et « do » dans ce contexte : ___ a decision / ___ an effort</label><input type="text" name="q16" required placeholder="make... / do...">
+    <label>17. Traduis : « La discipline est la force principale des armées »</label><input type="text" name="q17" required>
+    <label>18. Word that fits: The soldiers showed great _____ under fire. (brave)</label><input type="text" name="q18" required>
+    <label>19. Complète : I wish I _____ (be) more careful yesterday.</label><input type="text" name="q19" required>
+    <label>20. Traduis en français : « No man is an island »</label><input type="text" name="q20" required>
+
+    <button type="submit">Valider et envoyer</button>
+  </form>
+</div>
+
+<div id="loading">
+  <div class="spinner"></div>
+  <div>Envoi en cours… 5 secondes</div>
+</div>
+
+<script>
+const form = document.getElementById('testForm');
+const loading = document.getElementById('loading');
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  loading.style.display = 'flex';
+  form.querySelectorAll('input,select,button,textarea').forEach(el=>el.disabled=true);
+
+  try {
+    const formData = new FormData(form);
+    formData.append('test_type', 'Test FR/EN');
+
+    const response = await fetch('https://script.google.com/macros/s/AKfycbxLlL8fJKTTdKcdCFKxmJgK6QbM4bkiC38t1m0nHAA5kAGFTGCbOqcmJ_kQafz3qzkg/exec', {
+      method: 'POST',
+      body: formData
+    });
+
+    await new Promise(r => setTimeout(r, 5000));
+
+    if (response.ok) {
+      alert('Réponses envoyées avec succès !');
+      form.reset();
+    } else {
+      alert('Erreur lors de l’envoi.');
+    }
+  } catch(err) {
+    alert('Erreur réseau : ' + err.message);
+  } finally {
+    loading.style.display = 'none';
+    form.querySelectorAll('input,select,button,textarea').forEach(el=>el.disabled=false);
+    window.location.reload();
+  }
+});
+</script>
+</body>
+</html>
