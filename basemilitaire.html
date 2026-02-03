@@ -13,30 +13,28 @@
     .subtitle{text-align:center;color:#555;margin-bottom:30px;}
     label{display:block;margin:18px 0 6px;font-weight:bold;}
     input,select{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;box-sizing:border-box;font-size:1rem;}
-    button{display:block;margin:30px auto 0;padding:16px 80px;font-size:1.3rem;background:#c8102e;color:white;border:none;border-radius:8px;cursor:pointer;}
+    button{display:block;margin:50px auto 0;padding:16px 80px;font-size:1.3rem;background:#c8102e;color:white;border:none;border-radius:8px;cursor:pointer;}
     button:hover{background:#a00d24;}
-    button:disabled{background:#999;cursor:not-allowed;}
     #loading{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;color:white;font-size:2rem;flex-direction:column;justify-content:center;align-items:center;}
     .spinner{width:80px;height:80px;border:10px solid #fff;border-top:10px solid #c8102e;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:30px;}
     #result{display:none;margin-top:40px;padding:20px;background:#e8f4fd;border:2px solid #003087;border-radius:10px;text-align:center;font-size:1.3rem;}
-    #timer{text-align:center;font-size:1.5rem;font-weight:bold;color:#c8102e;margin-bottom:20px;}
     @keyframes spin{to{transform:rotate(360deg);}}
   </style>
 </head>
-<body onload="startTimer()">
+<body>
 
 <div class="container">
   <img src="https://i.imgur.com/cYoRkpp.png" alt="Logo" class="logo">
   <h1>Test Mathématiques & Français – Militaire</h1>
   <p class="subtitle">20 questions – Total sur 20 points</p>
 
-  <div id="timer">Temps restant : 10:00</div>
-
   <form id="testForm">
     <label for="prenom">Prénom :</label>
     <input type="text" id="prenom" name="prenom" required>
+
     <label for="nom">Nom :</label>
     <input type="text" id="nom" name="nom" required>
+
     <label for="numero">Numéro de candidat / Matricule :</label>
     <input type="text" id="numero" name="numero" required>
 
@@ -46,12 +44,7 @@
     <label>3. Racine carrée de 169 ?</label><input type="number" name="q3" required>
     <label>4. 25 % de 240 = ?</label><input type="number" name="q4" required>
     <label>5. Orthographe correcte : a) occazsion b) occasion c) ocassion</label>
-    <select name="q5" required>
-      <option value="">Choisir...</option>
-      <option value="occasion">b) occasion</option>
-      <option value="occazsion">a) occazsion</option>
-      <option value="ocassion">c) ocassion</option>
-    </select>
+    <select name="q5" required><option value="">Choisir...</option><option value="occasion">b) occasion</option><option value="occazsion">a) occazsion</option><option value="ocassion">c) ocassion</option></select>
     <label>6. Synonyme de « persévérant »</label><input type="text" name="q6" required>
     <label>7. Antonyme de « diluer »</label><input type="text" name="q7" required>
     <label>8. 3/4 + 5/6 = ? (fraction irréductible)</label><input type="text" name="q8" required placeholder="ex: 19/12">
@@ -61,26 +54,16 @@
     <label>12. Complète : ni l’un ___ l’autre n’est venu</label><input type="text" name="q12" required>
     <label>13. 15 % de 360 = ?</label><input type="number" name="q13" required>
     <label>14. Orthographe : a) rythmes b) ritmes c) rythme</label>
-    <select name="q14" required>
-      <option value="">Choisir...</option>
-      <option value="rythmes">a) rythmes</option>
-      <option value="ritmes">b) ritmes</option>
-      <option value="rythme">c) rythme</option>
-    </select>
+    <select name="q14" required><option value="">Choisir...</option><option value="rythmes">a) rythmes</option><option value="ritmes">b) ritmes</option><option value="rythme">c) rythme</option></select>
     <label>15. 4! (factorielle) = ?</label><input type="number" name="q15" required>
     <label>16. Synonyme de « éphémère »</label><input type="text" name="q16" required>
     <label>17. 2,5 × 4,8 = ?</label><input type="number" step="0.01" name="q17" required>
     <label>18. Mot de la même famille que « nation »</label><input type="text" name="q18" required>
     <label>19. 1/3 de 96 = ?</label><input type="number" name="q19" required>
     <label>20. Phrase correcte ? a) Il est partit b) Il est parti c) Il est partie</label>
-    <select name="q20" required>
-      <option value="">Choisir...</option>
-      <option value="Il est partit">a) Il est partit</option>
-      <option value="Il est parti">b) Il est parti</option>
-      <option value="Il est partie">c) Il est partie</option>
-    </select>
+    <select name="q20" required><option value="">Choisir...</option><option value="Il est partit">a) Il est partit</option><option value="Il est parti">b) Il est parti</option><option value="Il est partie">c) Il est partie</option></select>
 
-    <button type="submit" id="submitBtn">Valider et envoyer</button>
+    <button type="submit">Valider et envoyer</button>
   </form>
 
   <div id="result"></div>
@@ -93,7 +76,7 @@
 
 <script>
 // ────────────────────────────────────────────────
-// BONNES REPONSES
+// BONNES REPONSES – À ADAPTER SELON TES CRITÈRES EXACTS
 // ────────────────────────────────────────────────
 const bonnesReponses = {
   q1: "126",
@@ -101,8 +84,8 @@ const bonnesReponses = {
   q3: "13",
   q4: "60",
   q5: "occasion",
-  q6: "tenace",
-  q7: "concentrer",
+  q6: "tenace", "acharné",       // adapte si tu acceptes plusieurs réponses
+  q7: "concentrer",   // adapte
   q8: "19/12",
   q9: "convaincu",
   q10: "113",
@@ -111,9 +94,9 @@ const bonnesReponses = {
   q13: "54",
   q14: "rythmes",
   q15: "24",
-  q16: "fugace",
+  q16: "fugace",      // adapte
   q17: "12",
-  q18: "national",
+  q18: "national",    // adapte (accepte plusieurs ?)
   q19: "32",
   q20: "Il est parti"
 };
@@ -121,67 +104,44 @@ const bonnesReponses = {
 const form = document.getElementById('testForm');
 const loading = document.getElementById('loading');
 const resultDiv = document.getElementById('result');
-const submitBtn = document.getElementById('submitBtn');
-const timerDisplay = document.getElementById('timer');
 
-let timeLeft = 20; // 10 minutes = 600 secondes
-let timerInterval;
+form.addEventListener('submit', async e => {
+  e.preventDefault();
 
-// Démarre le compte à rebours dès le chargement
-function startTimer() {
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-    timerDisplay.textContent = `Temps restant : ${minutes}:${seconds.toString().padStart(2, '0')}`;
-
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      timerDisplay.textContent = "Temps écoulé ! Envoi automatique...";
-      submitBtn.disabled = true;
-      sendForm(); // Envoi automatique
-    }
-  }, 1000);
-}
-
-// Envoi du formulaire (manuel ou auto)
-async function sendForm() {
+  // Calcul du score
   let score = 0;
   for (let i = 1; i <= 20; i++) {
     const key = 'q' + i;
-    const reponseUser = (form.elements[key]?.value || "").trim().toLowerCase();
+    const reponseUser = form.elements[key]?.value?.trim().toLowerCase() || "";
     const bonne = (bonnesReponses[key] || "").toLowerCase();
+
     if (reponseUser === bonne) {
       score += 1;
     }
   }
 
   loading.style.display = 'flex';
-  const elements = form.querySelectorAll('input, select, button, textarea');
-  elements.forEach(el => el.disabled = true);
+  form.querySelectorAll('input,select,button').forEach(el => el.disabled = true);
 
   try {
     const formData = new FormData();
-    formData.append('prenom',   form.prenom.value.trim() || "Non rempli");
-    formData.append('nom',      form.nom.value.trim() || "Non rempli");
-    formData.append('numero',   form.numero.value.trim() || "Non rempli");
+    formData.append('prenom',   form.prenom.value.trim());
+    formData.append('nom',      form.nom.value.trim());
+    formData.append('numero',   form.numero.value.trim());
     formData.append('score',    score);
     formData.append('test_type','Test Math et FR Militaire');
 
-    // REMPLACE PAR TA VRAIE URL ACTUELLE (dernier déploiement valide)
-    const response = await fetch('https://script.google.com/macros/s/TA_TA_TA_TA_TA_TA_TA_TA_TA_TA/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbz-B7FaLn-OiTeZbPM1HaxAYlRVaLA4E24eA3zu3pio4MLKDqeL4598Az5SMJuYkW6_/exec', {
       method: 'POST',
-      body: formData,
-      mode: 'cors'
+      body: formData
     });
 
     await new Promise(r => setTimeout(r, 5000));
 
     if (response.ok) {
       resultDiv.innerHTML = `
-        <strong>Résultat pour ${form.prenom.value.trim() || "Anonyme"} ${form.nom.value.trim() || ""}</strong><br>
-        Score : <span style="font-size:2rem;color:#c8102e;">${score} / 20</span><br>
-        <small>${timeLeft <= 0 ? "Temps écoulé" : "Envoyé manuellement"}</small>
+        <strong>Résultat pour ${form.prenom.value.trim()} ${form.nom.value.trim()}</strong><br>
+        Score : <span style="font-size:2rem;color:#c8102e;">${score} / 20</span>
       `;
       resultDiv.style.display = 'block';
       form.reset();
@@ -190,21 +150,12 @@ async function sendForm() {
     }
   } catch (err) {
     alert('Erreur réseau : ' + err.message);
-    console.error(err);
   } finally {
     loading.style.display = 'none';
-    elements.forEach(el => el.disabled = false);
-    submitBtn.disabled = true; // Désactive le bouton après envoi
+    form.querySelectorAll('input,select,button').forEach(el => el.disabled = false);
+    // window.location.reload();   ← commenté pour garder le résultat visible
   }
-}
-
-// Soumission manuelle
-form.addEventListener('submit', async e => {
-  e.preventDefault();
-  submitBtn.disabled = true;
-  await sendForm();
 });
 </script>
-
 </body>
 </html>
