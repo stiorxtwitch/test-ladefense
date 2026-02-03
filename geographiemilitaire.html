@@ -12,11 +12,12 @@
     h1{text-align:center;color:#003087;margin-bottom:8px;}
     .subtitle{text-align:center;color:#555;margin-bottom:30px;}
     label{display:block;margin:18px 0 6px;font-weight:bold;}
-    input,select,textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;box-sizing:border-box;font-size:1rem;}
+    input,textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;box-sizing:border-box;font-size:1rem;}
     button{display:block;margin:50px auto 0;padding:16px 80px;font-size:1.3rem;background:#c8102e;color:white;border:none;border-radius:8px;cursor:pointer;}
     button:hover{background:#a00d24;}
     #loading{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;color:white;font-size:2rem;flex-direction:column;justify-content:center;align-items:center;}
     .spinner{width:80px;height:80px;border:10px solid #fff;border-top:10px solid #c8102e;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:30px;}
+    #result{display:none;margin-top:40px;padding:25px;background:#e8f4fd;border:2px solid #003087;border-radius:10px;text-align:center;font-size:1.4rem;line-height:1.5;}
     @keyframes spin{to{transform:rotate(360deg);}}
   </style>
 </head>
@@ -37,10 +38,7 @@
     <label for="numero">Numéro de candidat / Matricule :</label>
     <input type="text" id="numero" name="numero" required>
 
-    <label for="score">Score total (sur 20) – optionnel :</label>
-    <input type="number" id="score" name="score" min="0" max="20" step="0.5" placeholder="À remplir si auto-correction">
-
-    <!-- 20 questions exemples -->
+    <!-- Questions + bonnes réponses intégrées dans le JS ci-dessous -->
     <label>1. Capitale de la Côte d'Ivoire ?</label><input type="text" name="q1" required>
     <label>2. Plus long fleuve d'Afrique ?</label><input type="text" name="q2" required>
     <label>3. Combien d'États membres dans l'Union européenne en 2025 ?</label><input type="number" name="q3" required>
@@ -64,6 +62,8 @@
 
     <button type="submit">Valider et envoyer</button>
   </form>
+
+  <div id="result"></div>
 </div>
 
 <div id="loading">
@@ -72,17 +72,62 @@
 </div>
 
 <script>
+// ────────────────────────────────────────────────
+// BONNES RÉPONSES EXACTES (2025-2026)
+// ────────────────────────────────────────────────
+const bonnesReponses = {
+  q1:  "yamoussoukro",                    // officielle (Abidjan reste capitale économique)
+  q2:  "nil",                             // Nil (le plus long)
+  q3:  "27",                              // 27 États membres UE en 2025 (pas de changement prévu)
+  q4:  "vatican",                         // Vatican (0,44 km²)
+  q5:  "atlantique",                      // Océan Atlantique
+  q6:  "kilimandjaro",                    // Kilimandjaro (5895 m)
+  q7:  "botswana",                        // Désert du Kalahari principalement au Botswana
+  q8:  "algérie",                         // Algérie (2,38 millions km²)
+  q9:  "tokyo",
+  q10: "suède",                           // ou "indonésie" selon critères – ici Suède souvent citée (267 570 îles)
+  q11: "mali",
+  q12: "victoria",                        // Lac Victoria (68 800 km²)
+  q13: "real",                            // Réal brésilien
+  q14: "france",                          // France (12 fuseaux avec outre-mer)
+  q15: "tanzanie",                        // Kilimandjaro en Tanzanie
+  q16: "canberra",
+  q17: "sahara",                          // Sahara (le plus grand désert chaud)
+  q18: "canada",                          // Canada (202 080 km de côtes)
+  q19: "indien",                          // Océan Indien
+  q20: "suez"                             // Canal de Suez
+};
+
 const form = document.getElementById('testForm');
 const loading = document.getElementById('loading');
+const resultDiv = document.getElementById('result');
 
 form.addEventListener('submit', async e => {
   e.preventDefault();
+
+  // Calcul du score
+  let score = 0;
+  for (let i = 1; i <= 20; i++) {
+    const key = 'q' + i;
+    let reponseUser = (form.elements[key]?.value || "").trim().toLowerCase().replace(/\s+/g, '');
+
+    const bonne = (bonnesReponses[key] || "").toLowerCase().replace(/\s+/g, '');
+
+    if (bonne && reponseUser.includes(bonne)) {
+      score += 1;
+    }
+  }
+
   loading.style.display = 'flex';
-  form.querySelectorAll('input,select,button,textarea').forEach(el=>el.disabled=true);
+  form.querySelectorAll('input,textarea,button').forEach(el => el.disabled = true);
 
   try {
-    const formData = new FormData(form);
-    formData.append('test_type', 'Test Geographie');
+    const formData = new FormData();
+    formData.append('prenom',   form.prenom.value.trim());
+    formData.append('nom',      form.nom.value.trim());
+    formData.append('numero',   form.numero.value.trim());
+    formData.append('score',    score);
+    formData.append('test_type','Test Geographie');
 
     const response = await fetch('https://script.google.com/macros/s/AKfycbzpurjdSmV9PmI74c2f45O9srmSKmd6MJ6adcu8i6yE54M6TKU5bYJoYiTlxpikVssg/exec', {
       method: 'POST',
@@ -92,19 +137,26 @@ form.addEventListener('submit', async e => {
     await new Promise(r => setTimeout(r, 5000));
 
     if (response.ok) {
-      alert('Réponses envoyées avec succès !');
+      resultDiv.innerHTML = `
+        <strong>Résultat pour ${form.prenom.value.trim()} ${form.nom.value.trim()}</strong><br>
+        <span style="font-size:2.4rem;color:#c8102e;font-weight:bold;">
+          Score : ${score} / 20
+        </span>
+      `;
+      resultDiv.style.display = 'block';
       form.reset();
     } else {
-      alert('Erreur lors de l’envoi.');
+      alert('Erreur lors de l’envoi (statut ' + response.status + ')');
     }
-  } catch(err) {
+  } catch (err) {
     alert('Erreur réseau : ' + err.message);
   } finally {
     loading.style.display = 'none';
-    form.querySelectorAll('input,select,button,textarea').forEach(el=>el.disabled=false);
-    window.location.reload();
+    form.querySelectorAll('input,textarea,button').forEach(el => el.disabled = false);
+    // window.location.reload();   ← commenté pour garder le résultat visible
   }
 });
 </script>
+
 </body>
 </html>
