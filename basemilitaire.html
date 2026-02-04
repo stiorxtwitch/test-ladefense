@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Test Math & Français Militaire</title>
   <link rel="icon" href="https://i.imgur.com/cYoRkpp.png">
+
   <style>
     body{font-family:Arial,sans-serif;margin:0;padding:20px;background:#f8f9fa;}
     .container{max-width:860px;margin:0 auto;background:white;padding:30px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.15);}
@@ -12,56 +13,110 @@
     h1{text-align:center;color:#003087;margin-bottom:8px;}
     .subtitle{text-align:center;color:#555;margin-bottom:30px;}
     label{display:block;margin:18px 0 6px;font-weight:bold;}
-    input,select{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;box-sizing:border-box;font-size:1rem;}
+    input,select{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;font-size:1rem;}
     button{display:block;margin:50px auto 0;padding:16px 80px;font-size:1.3rem;background:#c8102e;color:white;border:none;border-radius:8px;cursor:pointer;}
     button:hover{background:#a00d24;}
-    #loading{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;color:white;font-size:2rem;flex-direction:column;justify-content:center;align-items:center;}
-    .spinner{width:80px;height:80px;border:10px solid #fff;border-top:10px solid #c8102e;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:30px;}
-    #result{display:none;margin-top:40px;padding:20px;background:#e8f4fd;border:2px solid #003087;border-radius:10px;text-align:center;font-size:1.3rem;}
+
+    #loading{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.7);
+      z-index:9999;
+      color:white;
+      font-size:2rem;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .spinner{
+      width:80px;
+      height:80px;
+      border:10px solid #fff;
+      border-top:10px solid #c8102e;
+      border-radius:50%;
+      animation:spin 1s linear infinite;
+      margin-bottom:30px;
+    }
+
+    #result{
+      display:none;
+      margin-top:40px;
+      padding:20px;
+      background:#e8f4fd;
+      border:2px solid #003087;
+      border-radius:10px;
+      text-align:center;
+      font-size:1.3rem;
+    }
+
     @keyframes spin{to{transform:rotate(360deg);}}
   </style>
 </head>
+
 <body>
 
 <div class="container">
-  <img src="https://i.imgur.com/cYoRkpp.png" alt="Logo" class="logo">
+  <img src="https://i.imgur.com/cYoRkpp.png" class="logo">
   <h1>Test Mathématiques & Français – Militaire</h1>
   <p class="subtitle">20 questions – Total sur 20 points</p>
 
   <form id="testForm">
-    <label for="prenom">Prénom :</label>
-    <input type="text" id="prenom" name="prenom" required>
 
-    <label for="nom">Nom :</label>
-    <input type="text" id="nom" name="nom" required>
+    <label>Prénom</label>
+    <input name="prenom" required>
 
-    <label for="numero">Numéro de candidat / Matricule :</label>
-    <input type="text" id="numero" name="numero" required>
+    <label>Nom</label>
+    <input name="nom" required>
 
-    <!-- Questions -->
-    <label>1. 18 × 7 = ?</label><input type="number" name="q1" required>
-    <label>2. 144 ÷ 12 = ?</label><input type="number" name="q2" required>
-    <label>3. Racine carrée de 169 ?</label><input type="number" name="q3" required>
-    <label>4. 25 % de 240 = ?</label><input type="number" name="q4" required>
-    <label>5. Orthographe correcte : a) occazsion b) occasion c) ocassion</label>
-    <select name="q5" required><option value="">Choisir...</option><option value="occasion">b) occasion</option><option value="occazsion">a) occazsion</option><option value="ocassion">c) ocassion</option></select>
-    <label>6. Synonyme de « persévérant »</label><input type="text" name="q6" required>
-    <label>7. Antonyme de « diluer »</label><input type="text" name="q7" required>
-    <label>8. 3/4 + 5/6 = ? (fraction irréductible)</label><input type="text" name="q8" required placeholder="ex: 19/12">
-    <label>9. Participe passé de « convaincre »</label><input type="text" name="q9" required>
-    <label>10. 7² + 8² = ?</label><input type="number" name="q10" required>
-    <label>11. PGCD de 48 et 18 ?</label><input type="number" name="q11" required>
-    <label>12. Complète : ni l’un ___ l’autre n’est venu</label><input type="text" name="q12" required>
-    <label>13. 15 % de 360 = ?</label><input type="number" name="q13" required>
-    <label>14. Orthographe : a) rythmes b) ritmes c) rythme</label>
-    <select name="q14" required><option value="">Choisir...</option><option value="rythmes">a) rythmes</option><option value="ritmes">b) ritmes</option><option value="rythme">c) rythme</option></select>
-    <label>15. 4! (factorielle) = ?</label><input type="number" name="q15" required>
-    <label>16. Synonyme de « éphémère »</label><input type="text" name="q16" required>
-    <label>17. 2,5 × 4,8 = ?</label><input type="number" step="0.01" name="q17" required>
-    <label>18. Mot de la même famille que « nation »</label><input type="text" name="q18" required>
-    <label>19. 1/3 de 96 = ?</label><input type="number" name="q19" required>
-    <label>20. Phrase correcte ? a) Il est partit b) Il est parti c) Il est partie</label>
-    <select name="q20" required><option value="">Choisir...</option><option value="Il est partit">a) Il est partit</option><option value="Il est parti">b) Il est parti</option><option value="Il est partie">c) Il est partie</option></select>
+    <label>Numéro / Matricule</label>
+    <input name="numero" required>
+
+    <label>1. 18 × 7</label><input name="q1" required>
+    <label>2. 144 ÷ 12</label><input name="q2" required>
+    <label>3. √169</label><input name="q3" required>
+    <label>4. 25 % de 240</label><input name="q4" required>
+
+    <label>5. Orthographe correcte</label>
+    <select name="q5" required>
+      <option value="">Choisir</option>
+      <option value="occasion">occasion</option>
+      <option value="occazsion">occazsion</option>
+      <option value="ocassion">ocassion</option>
+    </select>
+
+    <label>6. Synonyme de « persévérant »</label><input name="q6" required>
+    <label>7. Antonyme de « diluer »</label><input name="q7" required>
+    <label>8. 3/4 + 5/6</label><input name="q8" placeholder="19/12" required>
+    <label>9. Participe passé de « convaincre »</label><input name="q9" required>
+    <label>10. 7² + 8²</label><input name="q10" required>
+    <label>11. PGCD de 48 et 18</label><input name="q11" required>
+    <label>12. ni l’un ___ l’autre</label><input name="q12" required>
+    <label>13. 15 % de 360</label><input name="q13" required>
+
+    <label>14. Orthographe correcte</label>
+    <select name="q14" required>
+      <option value="">Choisir</option>
+      <option value="rythmes">rythmes</option>
+      <option value="ritmes">ritmes</option>
+      <option value="rythme">rythme</option>
+    </select>
+
+    <label>15. 4!</label><input name="q15" required>
+    <label>16. Synonyme de « éphémère »</label><input name="q16" required>
+    <label>17. 2,5 × 4,8</label><input name="q17" required>
+    <label>18. Mot de la famille de « nation »</label><input name="q18" required>
+    <label>19. 1/3 de 96</label><input name="q19" required>
+
+    <label>20. Phrase correcte</label>
+    <select name="q20" required>
+      <option value="">Choisir</option>
+      <option value="il est parti">Il est parti</option>
+      <option value="il est partit">Il est partit</option>
+      <option value="il est partie">Il est partie</option>
+    </select>
 
     <button type="submit">Valider et envoyer</button>
   </form>
@@ -71,91 +126,47 @@
 
 <div id="loading">
   <div class="spinner"></div>
-  <div>Envoi en cours… 5 secondes</div>
+  <div>Envoi en cours…</div>
 </div>
 
 <script>
-// ────────────────────────────────────────────────
-// BONNES REPONSES – À ADAPTER SELON TES CRITÈRES EXACTS
-// ────────────────────────────────────────────────
 const bonnesReponses = {
-  q1: "126",
-  q2: "12",
-  q3: "13",
-  q4: "60",
-  q5: "occasion",
-  q6: "tenace", "acharné",       // adapte si tu acceptes plusieurs réponses
-  q7: "concentrer",   // adapte
-  q8: "19/12",
-  q9: "convaincu",
-  q10: "113",
-  q11: "6",
-  q12: "ni",
-  q13: "54",
-  q14: "rythmes",
-  q15: "24",
-  q16: "fugace",      // adapte
-  q17: "12",
-  q18: "national",    // adapte (accepte plusieurs ?)
-  q19: "32",
-  q20: "Il est parti"
+  q1:["126"], q2:["12"], q3:["13"], q4:["60"], q5:["occasion"],
+  q6:["tenace","acharné","persévérant"], q7:["concentrer"],
+  q8:["19/12"], q9:["convaincu"], q10:["113"], q11:["6"],
+  q12:["ni"], q13:["54"], q14:["rythmes"], q15:["24"],
+  q16:["éphémère","fugace","passager"], q17:["12"],
+  q18:["national","nationalité"], q19:["32"], q20:["il est parti"]
 };
 
-const form = document.getElementById('testForm');
-const loading = document.getElementById('loading');
-const resultDiv = document.getElementById('result');
+const normalize = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
 
-form.addEventListener('submit', async e => {
+document.getElementById("testForm").addEventListener("submit", async e=>{
   e.preventDefault();
 
-  // Calcul du score
-  let score = 0;
-  for (let i = 1; i <= 20; i++) {
-    const key = 'q' + i;
-    const reponseUser = form.elements[key]?.value?.trim().toLowerCase() || "";
-    const bonne = (bonnesReponses[key] || "").toLowerCase();
-
-    if (reponseUser === bonne) {
-      score += 1;
-    }
+  let score=0;
+  for(let i=1;i<=20;i++){
+    const k="q"+i;
+    if(bonnesReponses[k].map(normalize).includes(normalize(e.target[k].value))) score++;
   }
 
-  loading.style.display = 'flex';
-  form.querySelectorAll('input,select,button').forEach(el => el.disabled = true);
+  document.getElementById("loading").style.display="flex";
 
-  try {
-    const formData = new FormData();
-    formData.append('prenom',   form.prenom.value.trim());
-    formData.append('nom',      form.nom.value.trim());
-    formData.append('numero',   form.numero.value.trim());
-    formData.append('score',    score);
-    formData.append('test_type','Test Math et FR Militaire');
+  const fd=new FormData(e.target);
+  fd.append("score",score);
+  fd.append("test_type","Test Math et FR Militaire");
 
-    const response = await fetch('https://script.google.com/macros/s/AKfycbz-B7FaLn-OiTeZbPM1HaxAYlRVaLA4E24eA3zu3pio4MLKDqeL4598Az5SMJuYkW6_/exec', {
-      method: 'POST',
-      body: formData
-    });
+  await fetch("https://script.google.com/macros/s/AKfycbz-B7FaLn-OiTeZbPM1HaxAYlRVaLA4E24eA3zu3pio4MLKDqeL4598Az5SMJuYkW6_/exec",
+    {method:"POST",body:fd});
 
-    await new Promise(r => setTimeout(r, 5000));
+  await new Promise(r=>setTimeout(r,5000));
 
-    if (response.ok) {
-      resultDiv.innerHTML = `
-        <strong>Résultat pour ${form.prenom.value.trim()} ${form.nom.value.trim()}</strong><br>
-        Score : <span style="font-size:2rem;color:#c8102e;">${score} / 20</span>
-      `;
-      resultDiv.style.display = 'block';
-      form.reset();
-    } else {
-      alert('Erreur lors de l’envoi (statut ' + response.status + ')');
-    }
-  } catch (err) {
-    alert('Erreur réseau : ' + err.message);
-  } finally {
-    loading.style.display = 'none';
-    form.querySelectorAll('input,select,button').forEach(el => el.disabled = false);
-    // window.location.reload();   ← commenté pour garder le résultat visible
-  }
+  document.getElementById("result").style.display="block";
+  document.getElementById("result").innerHTML=`Score : <b>${score}/20</b>`;
+  document.getElementById("loading").style.display="none";
+  e.target.reset();
 });
 </script>
+
 </body>
 </html>
